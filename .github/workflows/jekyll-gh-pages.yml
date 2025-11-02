@@ -1,8 +1,8 @@
-name: Deploy to GitHub Pages
+name: GitHub Pagesにデプロイ
 
 on:
   push:
-    branches: ["main", "master"]
+    branches: ["メイン", "マスター"]
   workflow_dispatch:
 
 permissions:
@@ -18,21 +18,24 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: チェックアウト
         uses: actions/checkout@v4
-      - name: Setup Pages
+      - name: セットアップページ
         uses: actions/configure-pages@v4
-      - name: Create site directory
+      - name: サイトディレクトリの作成
         run: |
           mkdir -p _site
           cp index.html _site/
           if [ -d "lec 01" ]; then
             cp -r "lec 01"/* _site/ 2>/dev/null || true
           fi
-      - name: Upload artifact
+      - name: アーティファクトのアップロード
         uses: actions/upload-pages-artifact@v3
         with:
           path: '_site'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-github-pages@v4
+      - name: GitHub Pagesにデプロイ
+        id: deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site

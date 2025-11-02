@@ -25,7 +25,8 @@ jobs:
       - name: Copy files to root
         run: |
           mkdir -p _site
-          cp -r "lec 01"/* _site/
+          cp index.html _site/
+          cp -r "lec 01"/* _site/ 2>/dev/null || true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -41,3 +42,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-github-pages@v4
+
